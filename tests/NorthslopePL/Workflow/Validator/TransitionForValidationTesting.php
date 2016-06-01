@@ -50,4 +50,11 @@ class TransitionForValidationTesting implements WorkflowTransition
 	public function run($context)
 	{
 	}
+
+	public function startsFromAnyStateId()
+	{
+		return false;
+	}
+
+
 }

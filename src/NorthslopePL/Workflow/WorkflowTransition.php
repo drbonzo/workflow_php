@@ -4,9 +4,25 @@ namespace NorthslopePL\Workflow;
 interface WorkflowTransition
 {
 	/**
+	 * @see startsFromAnyStateId()
+	 * @var string
+	 */
+	const __ANY_STATE = '__ANY_STATE';
+
+	/**
 	 * @return string
 	 */
 	public function getSourceStateId();
+
+	/**
+	 * if true then
+	 * - this transition starts from any state
+	 * - set getSourceStateId() to return WorkflowTransition::__ANY_STATE
+	 * - getEventNames() MUST return at least one event name
+	 *
+	 * @return boolean
+	 */
+	public function startsFromAnyStateId();
 
 	/**
 	 * @return string

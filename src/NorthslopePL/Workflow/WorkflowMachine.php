@@ -102,7 +102,7 @@ class WorkflowMachine
 
 			//
 			//
-			$this->performTransition($workflowCollection, $contextCollection, $workflow, $context, $transitionToRun);
+			$this->performTransition($workflowCollection, $contextCollection, $workflow, $context, $transitionToRun, $currentState);
 			$transitionWasPerformed = true;
 			//
 			//
@@ -166,9 +166,14 @@ class WorkflowMachine
 		return $potentialTransitions;
 	}
 
-	private function performTransition(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, WorkflowTransition $transition)
+	private function performTransition(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, WorkflowTransition $transition, WorkflowState $currentState)
 	{
-		$sourceState = $workflow->getStateForStateId($transition->getSourceStateId());
+		if ($transition->startsFromAnyStateId()) {
+			$sourceState = $currentState;
+		} else {
+			$sourceState = $workflow->getStateForStateId($transition->getSourceStateId());
+		}
+		
 		$destinationState = $workflow->getStateForStateId($transition->getDestinationStateId());
 
 		if (!$workflow->hasStateForStateId($destinationState->getStateId())) {

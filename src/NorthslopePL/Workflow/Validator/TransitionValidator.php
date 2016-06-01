@@ -57,11 +57,11 @@ class TransitionValidator implements WorkflowValidator
 
 					foreach ($outgoingTransitionsFromFinalState as $transition) {
 						$message = sprintf('WorkflowState "%s" is marked as final, so it cannot have outgoing transitions: %s( "%s" => "%s" )', $state->getStateId(), get_class($transition), $transition->getSourceStateId(), $transition->getDestinationStateId());
-					$result->addValidationError(new WorkflowValidationError($state, $message));
+						$result->addValidationError(new WorkflowValidationError($state, $message));
+					}
 				}
 			}
 		}
-	}
 	}
 
 	private function checkIfStatesForTransitionsExist(Workflow $workflow, WorkflowValidationResult $result)
@@ -75,7 +75,7 @@ class TransitionValidator implements WorkflowValidator
 			$sourceStateId = $transition->getSourceStateId();
 			$destinationStateId = $transition->getDestinationStateId();
 
-			if (!in_array($sourceStateId, $stateIDs)) {
+			if (!$transition->startsFromAnyStateId() && !in_array($sourceStateId, $stateIDs)) {
 				$messageForSource = sprintf('WorkflowTransition %s ("%s" => "%s") uses invalid sourceStateId: "%s"', get_class($transition), $sourceStateId, $destinationStateId, $sourceStateId);
 				$result->addValidationError(new WorkflowValidationError($transition, $messageForSource));
 			}

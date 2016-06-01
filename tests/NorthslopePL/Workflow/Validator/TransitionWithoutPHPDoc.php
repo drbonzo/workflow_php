@@ -59,4 +59,10 @@ class TransitionWithoutPHPDoc implements WorkflowTransition
 	{
 	}
 
+	public function startsFromAnyStateId()
+	{
+		return false;
+	}
+
+
 }

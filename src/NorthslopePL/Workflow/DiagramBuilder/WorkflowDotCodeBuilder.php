@@ -60,14 +60,39 @@ GRAPHWIZ_PATTERN;
 		$lines = [];
 		foreach ($workflow->getTransitions() as $transition) {
 
-			$eventsString = $this->buildEventsString($transition->getEventNames());
-			$guardString = $this->buildGuardString($transition);
-			$actionString = $this->buildActionString($transition);
-			$label = sprintf('%s%s%s', $eventsString, $guardString, $actionString);
-			$lines[] = sprintf('"%s" -> "%s" [label="%s"];', $transition->getSourceStateId(), $transition->getDestinationStateId(), $label);
+			if ($transition->startsFromAnyStateId()) {
+
+				foreach ($workflow->getStates() as $state) {
+
+					if ($workflow->stateMayBeASourceForWildcardTransition($state, $transition)) {
+						$lines[] = $this->buildTransitionCode($transition, $state->getStateId(), $transition->getDestinationStateId());
+					}
+				}
+
+			} else {
+
+				$lines[] = $this->buildTransitionCode($transition, $transition->getSourceStateId(), $transition->getDestinationStateId());
+
+			}
 		}
 
 		return join("\n", $lines);
+	}
+
+	/**
+	 * @param WorkflowTransition $transition
+	 * @param string $sourceStateId
+	 * @param string $destinationStateId
+	 * @return string
+	 */
+	private function buildTransitionCode(WorkflowTransition $transition, $sourceStateId, $destinationStateId)
+	{
+		$eventsString = $this->buildEventsString($transition->getEventNames());
+		$guardString = $this->buildGuardString($transition);
+		$actionString = $this->buildActionString($transition);
+		$label = sprintf('%s%s%s', $eventsString, $guardString, $actionString);
+
+		return sprintf('"%s" -> "%s" [label="%s"];', $sourceStateId, $destinationStateId, $label);
 	}
 
 	private function stateName($stateId)

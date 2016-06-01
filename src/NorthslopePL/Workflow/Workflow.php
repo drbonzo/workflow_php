@@ -83,8 +83,18 @@ abstract class Workflow
 		$foundTransitions = [];
 
 		foreach ($this->transitions as $transition) {
+
 			if ($transition->getSourceStateId() == $stateId) {
+
+				// starts from specified state
 				$foundTransitions[] = $transition;
+
+			} else if ($transition->startsFromAnyStateId()) {
+
+				$state = $this->getStateForStateId($stateId);
+				if ($this->stateMayBeASourceForWildcardTransition($state, $transition)) {
+					$foundTransitions[] = $transition;
+				}
 			}
 		}
 
@@ -122,5 +132,23 @@ abstract class Workflow
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param WorkflowState $state
+	 * @param WorkflowTransition $wildcardTransition
+	 * @return bool
+	 */
+	public function stateMayBeASourceForWildcardTransition(WorkflowState $state, WorkflowTransition $wildcardTransition)
+	{
+		if ($wildcardTransition->getDestinationStateId() == $state->getStateId()) {
+			return false;
+		}
+
+		if ($state->isFinal()) {
+			return false;
+		}
+
+		return true;
 	}
 }
