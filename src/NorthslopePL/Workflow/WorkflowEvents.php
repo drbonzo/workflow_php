@@ -1,0 +1,15 @@
+<?php
+namespace NorthslopePL\Workflow;
+
+class WorkflowEvents
+{
+	const BEGIN_EXECUTION = 'BEGIN_EXECUTION';
+
+	const BEFORE_TRANSITION = 'BEFORE_TRANSITION';
+
+	const STATE_CHANGED = 'STATE_CHANGED';
+
+	const AFTER_TRANSITION = 'AFTER_TRANSITION';
+
+	const END_EXECUTION = 'END_EXECUTION';
+}

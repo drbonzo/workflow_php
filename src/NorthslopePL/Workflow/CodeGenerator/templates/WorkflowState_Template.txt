@@ -1,0 +1,26 @@
+<?php
+namespace {{WorkflowState_Namespace}};
+
+use {{Workflow_Namespace}}\{{Workflow_StateIdClassname}};
+use {{Workflow_Namespace}}\{{Workflow_ContextClassname}};
+use {{Workflow_Namespace}}\{{Workflow_EventsClassname}};
+use NorthslopePL\Workflow\AbstractWorkflowState;
+use NorthslopePL\Workflow\WorkflowState;
+
+class {{WorkflowState_Classname}} implements WorkflowState
+{
+	use AbstractWorkflowState;
+
+	const STATE_ID = {{Workflow_StateIdClassname}}::{{WorkflowState_Id}};
+
+	public function getStateId()
+	{
+		return self::STATE_ID;
+	}
+{{WorkflowState_onEnterAction}}
+{{WorkflowState_onExitAction}}
+{{WorkflowState_onEnterEvents}}
+{{WorkflowState_onExitEvents}}
+{{WorkflowState_isFinal}}
+}
+

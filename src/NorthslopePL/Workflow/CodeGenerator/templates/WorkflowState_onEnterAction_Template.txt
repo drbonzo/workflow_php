@@ -1,0 +1,8 @@
+	/**
+	 * @param {{Workflow_ContextClassname}} $context
+	 * @Workflow-Action %s
+	 */
+	public function onEnterAction($context)
+	{
+		// FIXME implement me
+	}

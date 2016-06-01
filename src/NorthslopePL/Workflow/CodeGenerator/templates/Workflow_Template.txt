@@ -1,0 +1,13 @@
+<?php
+namespace {{Workflow_Namespace}};
+
+use NorthslopePL\Workflow\Workflow;
+
+class {{Workflow_Classname}} extends Workflow
+{
+	public function getName()
+	{
+		return '{{Workflow_Classname}}';
+	}
+
+}

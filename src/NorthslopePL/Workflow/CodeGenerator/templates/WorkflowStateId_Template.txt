@@ -1,0 +1,7 @@
+<?php
+namespace {{Workflow_Namespace}};
+
+interface {{Workflow_StateIdClassname}}
+{
+{{WorkflowStateId_Definition}}
+}

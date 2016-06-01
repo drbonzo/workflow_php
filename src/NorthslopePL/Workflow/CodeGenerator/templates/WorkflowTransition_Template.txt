@@ -1,0 +1,50 @@
+<?php
+namespace {{WorkflowTransition_Namespace}};
+
+use {{WorkflowTransition_SourceStateNamespace}}\{{WorkflowTransition_SourceStateClassname}};
+use {{WorkflowTransition_DestinationStateNamespace}}\{{WorkflowTransition_DestinationStateClassname}};
+use {{Workflow_Namespace}}\{{Workflow_ContextClassname}};
+use {{Workflow_Namespace}}\{{Workflow_EventsClassname}};
+use NorthslopePL\Workflow\WorkflowTransition;
+
+class {{WorkflowTransition_Classname}} implements WorkflowTransition
+{
+	public function getSourceStateId()
+	{
+		return {{WorkflowTransition_SourceStateClassname}}::STATE_ID;
+	}
+
+	public function getDestinationStateId()
+	{
+		return {{WorkflowTransition_DestinationStateClassname}}::STATE_ID;
+	}
+
+	public function getEventNames()
+	{
+		return [
+{{WorkflowTransition_Events}}
+		];
+	}
+
+	/**
+	 * @param {{Workflow_ContextClassname}} $context
+	 * @return bool
+	 *
+	 * @Workflow-Guard {{WorkflowTransition_Guard}}
+	 */
+	public function checkGuardCondition($context)
+	{
+		{{WorkflowTransition_GuardTodo}}
+		return true;
+	}
+
+	/**
+	 * @param {{Workflow_ContextClassname}} $context
+	 * @Workflow-Action {{WorkflowTransition_Run}}
+	 */
+	public function run($context)
+	{
+		{{WorkflowTransition_RunTodo}}
+	}
+
+}

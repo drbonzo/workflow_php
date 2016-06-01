@@ -1,0 +1,27 @@
+<?php
+namespace {{Workflow_Namespace}};
+
+{{Workflow_Use_StatesAndTransitions}}
+use NorthslopePL\Workflow\WorkflowBuilder;
+
+class {{WorkflowBuilder_Classname}} implements WorkflowBuilder
+{
+	public function buildWorkflow()
+	{
+		$workflow = new {{Workflow_Classname}}();
+
+		$workflowStates = [
+{{Workflow_States_Definition}}
+		];
+		$workflow->setStates($workflowStates);
+		$workflow->setInitialState($workflowStates[0]);
+
+		$workflowTransitions = [
+{{Workflow_Transitions_Definition}}
+		];
+
+		$workflow->setTransitions($workflowTransitions);
+
+		return $workflow;
+	}
+}

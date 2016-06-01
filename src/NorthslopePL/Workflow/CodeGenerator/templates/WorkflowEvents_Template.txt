@@ -1,0 +1,7 @@
+<?php
+namespace {{WorkflowTransition_Namespace}};
+
+interface {{Workflow_EventsClassname}}
+{
+{{Workflow_EventsDefinition}}
+}
