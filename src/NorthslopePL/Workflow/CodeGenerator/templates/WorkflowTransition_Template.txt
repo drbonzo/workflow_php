@@ -5,10 +5,13 @@ use {{WorkflowTransition_SourceStateNamespace}}\{{WorkflowTransition_SourceState
 use {{WorkflowTransition_DestinationStateNamespace}}\{{WorkflowTransition_DestinationStateClassname}};
 use {{Workflow_Namespace}}\{{Workflow_ContextClassname}};
 use {{Workflow_Namespace}}\{{Workflow_EventsClassname}};
+use NorthslopePL\Workflow\AbstractWorkflowTransition;
 use NorthslopePL\Workflow\WorkflowTransition;
 
 class {{WorkflowTransition_Classname}} implements WorkflowTransition
 {
+	use AbstractWorkflowTransition;
+
 	public function getSourceStateId()
 	{
 		return {{WorkflowTransition_SourceStateClassname}}::STATE_ID;
