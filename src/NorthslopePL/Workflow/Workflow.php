@@ -106,7 +106,7 @@ abstract class Workflow
 			}
 		}
 
-		throw new WorkflowLogicException(sprintf('State not found for stateId: "%s"', $stateId));
+		throw new WorkflowLogicException(sprintf('WorkflowState not found for stateId: "%s"', $stateId));
 	}
 
 	/**

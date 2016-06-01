@@ -40,7 +40,7 @@ class WorkflowTest extends PHPUnit_Framework_TestCase
 
 		$this->workflow->setStates([$state_A, $state_B, $state_C]);
 
-		$this->setExpectedExceptionRegExp(WorkflowLogicException::class, '#State not found for stateId: "INVALID"#');
+		$this->setExpectedExceptionRegExp(WorkflowLogicException::class, '#WorkflowState not found for stateId: "INVALID"#');
 		$this->workflow->getStateForStateId('INVALID');
 	}
 }
