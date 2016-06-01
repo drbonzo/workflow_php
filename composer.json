@@ -1,0 +1,25 @@
+{
+    "name": "dr_bonzo/workflow5",
+    "description": "Workflow System for PHP",
+    "authors": [
+        {
+            "name": "dr_bonzo",
+            "email": "dr_bonzo@northslope.pl"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "symfony/event-dispatcher": "^3.0",
+        "monolog/monolog": "^1.19"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
