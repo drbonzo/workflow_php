@@ -1,9 +1,9 @@
 <?php
 namespace NorthslopePL\Workflow;
 
-use Monolog\Logger;
 use NorthslopePL\Workflow\Exceptions\WorkflowLogicException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class WorkflowMachine
@@ -198,7 +198,7 @@ class WorkflowMachine
 					$transition->getDestinationStateId(),
 					get_class($transition)
 				),
-				Logger::INFO
+				LogLevel::INFO
 			);
 
 
@@ -261,7 +261,7 @@ class WorkflowMachine
 		return $eventNames;
 	}
 
-	private function log($message, $logLevel = Logger::DEBUG)
+	private function log($message, $logLevel = LogLevel::DEBUG)
 	{
 		if ($this->logger) {
 			$message = str_repeat('    ', $this->nestingLevelForLogging) . $message;
