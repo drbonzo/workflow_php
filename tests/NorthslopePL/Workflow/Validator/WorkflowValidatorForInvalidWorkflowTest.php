@@ -294,7 +294,7 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		$actualValidationErrors = $actualResult->getValidationErrors();
 
 		// $checkForObjectIdentity must be false as we have different object instances
-		$this->assertContains(new WorkflowValidationError($state_C, 'WorkflowState "state_C" is marked as final, so it cannot have outgoing transitions: TransitionForValidationTesting( "stateC" => "stateD" )'), $actualValidationErrors, '', false, false);
+		$this->assertContains(new WorkflowValidationError($state_C, 'WorkflowState "state_C" is marked as final, so it cannot have outgoing transitions: Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting( "state_C" => "state_D" )'), $actualValidationErrors, '', false, false);
 	}
 
 	public function testWorkflowStateEventsMustBeArrays()
