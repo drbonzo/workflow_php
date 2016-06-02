@@ -1,6 +1,7 @@
 <?php
 namespace Tests\NorthslopePL\Workflow\Fixtures;
 
+use DateTime;
 use NorthslopePL\Workflow\AbstractWorkflowContext;
 use NorthslopePL\Workflow\WorkflowContext;
 
@@ -11,6 +12,11 @@ class DefaultWorkflowContext implements WorkflowContext
 	public function setCurrentStateId($stateId)
 	{
 		$this->currentStateId = $stateId;
+	}
+
+	public function setLastStateChangedAt(DateTime $dateTime)
+	{
+		$this->lastStateChangedAt = $dateTime;
 	}
 
 }

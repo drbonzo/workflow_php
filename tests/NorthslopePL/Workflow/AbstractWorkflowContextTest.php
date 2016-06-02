@@ -1,10 +1,11 @@
 <?php
 namespace Tests\NorthslopePL\Workflow;
 
+use DateTime;
 use PHPUnit_Framework_TestCase;
 use Tests\NorthslopePL\Workflow\Fixtures\DefaultWorkflowContext;
 
-class AbstractWorkflowContext extends PHPUnit_Framework_TestCase
+class AbstractWorkflowContextTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var DefaultWorkflowContext
@@ -26,6 +27,16 @@ class AbstractWorkflowContext extends PHPUnit_Framework_TestCase
 		$this->assertSame($stateId, $this->workflowContext->getCurrentStateId());
 	}
 
+	public function testGetLastStateChangedAt()
+	{
+		$this->assertNull($this->workflowContext->getLastStateChangedAt());
+
+		$dateTime = new DateTime();
+		$this->workflowContext->setLastStateChangedAt($dateTime);
+
+		$this->assertEquals($dateTime, $this->workflowContext->getLastStateChangedAt());
+	}
+
 	public function testValues()
 	{
 		$this->assertNull($this->workflowContext->getValue('foo'));
@@ -40,6 +51,8 @@ class AbstractWorkflowContext extends PHPUnit_Framework_TestCase
 		$this->assertNull($this->workflowContext->getValue('foo'));
 	}
 
-	// FIXME getLastStateChangedAt()
-	// FIXME getStateHistory()
+	public function testGetStateHistory()
+	{
+		$this->assertSame([], $this->workflowContext->getStateHistory());
+	}
 }
