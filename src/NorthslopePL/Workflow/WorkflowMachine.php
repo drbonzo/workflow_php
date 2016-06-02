@@ -176,10 +176,6 @@ class WorkflowMachine
 		
 		$destinationState = $workflow->getStateForStateId($transition->getDestinationStateId());
 
-		if (!$workflow->hasStateForStateId($destinationState->getStateId())) {
-			throw new WorkflowLogicException('Workflow does not contain state for Id: ' . $destinationState->getStateId());
-		}
-
 		$this->log(sprintf('        Transition-Start: %s => %s', $sourceState->getStateId(), $destinationState->getStateId()));
 		$this->eventDispatcher->dispatch(WorkflowEvents::BEFORE_TRANSITION, new WorkflowEvent($context));
 		{
