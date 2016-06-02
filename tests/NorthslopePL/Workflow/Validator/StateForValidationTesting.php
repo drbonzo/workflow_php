@@ -56,7 +56,7 @@ class StateForValidationTesting implements WorkflowState
 	}
 
 	/**
-	 * @return \string[]
+	 * @return string[]
 	 */
 	public function getOnEnterEvents()
 	{
@@ -64,7 +64,7 @@ class StateForValidationTesting implements WorkflowState
 	}
 
 	/**
-	 * @param \string[] $onEnterEvents
+	 * @param string[] $onEnterEvents
 	 */
 	public function setOnEnterEvents($onEnterEvents)
 	{
@@ -72,7 +72,7 @@ class StateForValidationTesting implements WorkflowState
 	}
 
 	/**
-	 * @return \string[]
+	 * @return string[]
 	 */
 	public function getOnExitEvents()
 	{
@@ -80,7 +80,7 @@ class StateForValidationTesting implements WorkflowState
 	}
 
 	/**
-	 * @param \string[] $onExitEvents
+	 * @param string[] $onExitEvents
 	 */
 	public function setOnExitEvents($onExitEvents)
 	{
