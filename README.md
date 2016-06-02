@@ -33,4 +33,4 @@ $ composer install
 
 # Changelog
 
-[Changelog](changelog.md)
+[Changelog](CHANGELOG.md)
