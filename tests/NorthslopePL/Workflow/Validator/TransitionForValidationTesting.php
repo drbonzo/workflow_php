@@ -20,6 +20,11 @@ class TransitionForValidationTesting implements WorkflowTransition
 	 */
 	private $eventNames = [];
 
+	/**
+	 * @var bool
+	 */
+	private $startsFromAnyStateId = false;
+
 	public function __construct($sourceStateId, $destinationStateId, $eventNames = [])
 	{
 		$this->destinationStateId = $destinationStateId;
@@ -51,10 +56,20 @@ class TransitionForValidationTesting implements WorkflowTransition
 	{
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public function startsFromAnyStateId()
 	{
-		return false;
+		return $this->startsFromAnyStateId;
 	}
 
+	/**
+	 * @param boolean $startsFromAnyStateId
+	 */
+	public function setStartsFromAnyStateId($startsFromAnyStateId)
+	{
+		$this->startsFromAnyStateId = $startsFromAnyStateId;
+	}
 
 }

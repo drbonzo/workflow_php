@@ -343,4 +343,24 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		$this->assertContains(new WorkflowValidationError($transition_C_D, 'WorkflowTransition Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting ("state_C" => "state_D") uses invalid sourceStateId: "state_C"'), $actualValidationErrors, '', false, false);
 		$this->assertContains(new WorkflowValidationError($transition_C_D, 'WorkflowTransition Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting ("state_C" => "state_D") uses invalid destinationStateId: "state_D"'), $actualValidationErrors, '', false, false);
 	}
+
+	public function testWildcardTransitionWithoutEvent()
+	{
+		$state_A = new StateForValidationTesting('state_A');
+		$state_B = new StateForValidationTesting('state_B');
+
+		$this->workflow->setStates([$state_A, $state_B]);
+		$this->workflow->setInitialState($state_A);
+
+		$noEvents = [];
+		$wildcardTransition = new TransitionForValidationTesting($state_A->getStateId(), $state_B->getStateId(), $noEvents);
+		$wildcardTransition->setStartsFromAnyStateId(true);
+		$this->workflow->setTransitions([$wildcardTransition]);
+
+		$actualResult = $this->validator->validate($this->workflow);
+
+		$actualValidationErrors = $actualResult->getValidationErrors();
+		$this->assertContains(new WorkflowValidationError($wildcardTransition, 'WorkflowTransition Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting ("state_A" => "state_B") must be triggered by at least one event'), $actualValidationErrors, '', false, false);
+	}
+
 }

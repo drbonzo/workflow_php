@@ -18,6 +18,7 @@ class TransitionValidator implements WorkflowValidator
 		$this->checkIfAllStatesCanBeReachedFromInitialState($workflow, $result);
 		$this->checkIfAllFinalStatesHaveNoOutgoingTransitions($workflow, $result);
 		$this->checkIfStatesForTransitionsExist($workflow, $result);
+		$this->checkIfWildcardTransitionHasEvents($workflow, $result);
 
 		return $result;
 	}
@@ -108,6 +109,19 @@ class TransitionValidator implements WorkflowValidator
 		foreach ($transitions as $transition) {
 			$endState = $workflow->getStateForStateId($transition->getDestinationStateId());
 			$this->checkIfStateIsConnectedToInitialState($workflow, $endState, $visitedStatesId);
+		}
+	}
+
+	private function checkIfWildcardTransitionHasEvents(Workflow $workflow, WorkflowValidationResult $result)
+	{
+		foreach ($workflow->getTransitions() as $transition) {
+
+			if ($transition->startsFromAnyStateId()) {
+				if (empty($transition->getEventNames())) {
+					$message = sprintf('WorkflowTransition %s ("%s" => "%s") must be triggered by at least one event', get_class($transition), $transition->getSourceStateId(), $transition->getDestinationStateId());
+					$result->addValidationError(new WorkflowValidationError($transition, $message));
+				}
+			}
 		}
 	}
 
