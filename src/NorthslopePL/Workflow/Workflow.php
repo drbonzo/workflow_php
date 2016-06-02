@@ -141,6 +141,10 @@ abstract class Workflow
 	 */
 	public function stateMayBeASourceForWildcardTransition(WorkflowState $state, WorkflowTransition $wildcardTransition)
 	{
+		if ($wildcardTransition->startsFromAnyStateId() === false) {
+			return false;
+		}
+		
 		if ($wildcardTransition->getDestinationStateId() == $state->getStateId()) {
 			return false;
 		}
