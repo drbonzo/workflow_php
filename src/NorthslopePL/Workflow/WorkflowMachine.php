@@ -248,7 +248,8 @@ class WorkflowMachine
 
 			$context = $contextCollection->getContext(get_class($workflow));
 
-			$transitions = $workflow->getTransitionsFromState($context);
+			$currentState = $workflow->getStateForStateId($context->getCurrentStateId());
+			$transitions = $workflow->getTransitionsFromState($currentState);
 
 			foreach ($transitions as $transition) {
 				if ($transition->checkGuardCondition($context)) {
