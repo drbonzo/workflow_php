@@ -35,6 +35,8 @@ trait AbstractWorkflowTransition
 	 * @return void
 	 *
 	 * @Workflow-Action None
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function run($context)
 	{

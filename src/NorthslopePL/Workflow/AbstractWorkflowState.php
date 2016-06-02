@@ -19,6 +19,7 @@ trait AbstractWorkflowState
 	 * @inheritdoc
 	 * @see WorkflowState::onEnterAction()
 	 * @Workflow-Action None
+	 * @codeCoverageIgnore
 	 */
 	public function onEnterAction($context)
 	{
@@ -29,6 +30,7 @@ trait AbstractWorkflowState
 	 * @inheritdoc
 	 * @see WorkflowState::onExitAction()
 	 * @Workflow-Action None
+	 * @codeCoverageIgnore
 	 */
 	public function onExitAction($context)
 	{
