@@ -5,6 +5,7 @@ use NorthslopePL\Workflow\Validator\WorkflowValidationError;
 use NorthslopePL\Workflow\Validator\WorkflowValidatorCollection;
 use NorthslopePL\Workflow\Workflow;
 use PHPUnit_Framework_TestCase;
+use Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowState;
 use Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowTransition;
 
 class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
@@ -42,11 +43,11 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWorkflowStatesMustHaveUniqueIDs()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
-		$state_C = new StateForValidationTesting('state_A');
-		$state_D = new StateForValidationTesting('state_A');
-		$state_E = new StateForValidationTesting('state_B');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
+		$state_C = new ExampleWorkflowState('state_A');
+		$state_D = new ExampleWorkflowState('state_A');
+		$state_E = new ExampleWorkflowState('state_B');
 
 		$this->workflow->setStates([$state_A, $state_B, $state_C, $state_D, $state_E]);
 		$this->workflow->setInitialState($state_A);
@@ -60,9 +61,9 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testInitialStateMustBeWithinWorkflowStatuses()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
-		$initialState = new StateForValidationTesting('FOOBAR');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
+		$initialState = new ExampleWorkflowState('FOOBAR');
 
 		$this->workflow->setStates([$state_A, $state_B]);
 		$this->workflow->setInitialState($initialState);
@@ -74,11 +75,11 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testStateIdMustBeAStringCannotBeEmpty()
 	{
-		$state_int = new StateForValidationTesting(1234);
-		$state_null = new StateForValidationTesting(null);
-		$state_true = new StateForValidationTesting(true);
-		$state_false = new StateForValidationTesting(false);
-		$state_float = new StateForValidationTesting(12.34);
+		$state_int = new ExampleWorkflowState(1234);
+		$state_null = new ExampleWorkflowState(null);
+		$state_true = new ExampleWorkflowState(true);
+		$state_false = new ExampleWorkflowState(false);
+		$state_float = new ExampleWorkflowState(12.34);
 
 		$this->workflow->setStates([$state_int, $state_null, $state_true, $state_false, $state_float]);
 		$this->workflow->setInitialState($state_int);
@@ -98,8 +99,8 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWorkflowWithoutTransitions()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
 		$this->workflow->setStates([$state_A, $state_B]);
 		$this->workflow->setInitialState($state_A);
 
@@ -111,10 +112,10 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWorkflowWithoutSomeTransitions()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
-		$state_C = new StateForValidationTesting('state_C');
-		$state_D = new StateForValidationTesting('state_D');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
+		$state_C = new ExampleWorkflowState('state_C');
+		$state_D = new ExampleWorkflowState('state_D');
 		$this->workflow->setStates(
 			[
 				$state_A,
@@ -144,11 +145,11 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWorkflowWithoutSomeTransitions2()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
-		$state_C = new StateForValidationTesting('state_C');
-		$state_D = new StateForValidationTesting('state_D');
-		$state_E = new StateForValidationTesting('state_E');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
+		$state_C = new ExampleWorkflowState('state_C');
+		$state_D = new ExampleWorkflowState('state_D');
+		$state_E = new ExampleWorkflowState('state_E');
 		$this->workflow->setStates(
 			[
 				$state_A,
@@ -179,10 +180,10 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWorkflowWithoutSomeTransitions3()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
-		$state_C = new StateForValidationTesting('state_C');
-		$state_D = new StateForValidationTesting('state_D');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
+		$state_C = new ExampleWorkflowState('state_C');
+		$state_D = new ExampleWorkflowState('state_D');
 		$this->workflow->setStates(
 			[
 				$state_A,
@@ -219,9 +220,9 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWorkflowWithFinalStatesNotMarkedAsFinalOnes()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
-		$state_C = new StateForValidationTesting('state_C');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
+		$state_C = new ExampleWorkflowState('state_C');
 		$state_C->setFinal(true);
 
 		$this->workflow->setStates(
@@ -258,10 +259,10 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testStateMarkedAsFinalCannotHaveOutgoingTransitions()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
-		$state_C = new StateForValidationTesting('state_C');
-		$state_D = new StateForValidationTesting('state_D');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
+		$state_C = new ExampleWorkflowState('state_C');
+		$state_D = new ExampleWorkflowState('state_D');
 		$this->workflow->setStates(
 			[
 				$state_A,
@@ -300,7 +301,7 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWorkflowStateEventsMustBeArrays()
 	{
-		$state_A = new StateForValidationTesting('state_A');
+		$state_A = new ExampleWorkflowState('state_A');
 		/** @noinspection PhpParamsInspection */
 		$state_A->setOnEnterEvents('foo');
 		/** @noinspection PhpParamsInspection */
@@ -318,8 +319,8 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testTransitionsStatesShouldBePresentInTheWorkflow()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
 		$this->workflow->setStates(
 			[
 				$state_A,
@@ -347,8 +348,8 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 	public function testWildcardTransitionWithoutEvent()
 	{
-		$state_A = new StateForValidationTesting('state_A');
-		$state_B = new StateForValidationTesting('state_B');
+		$state_A = new ExampleWorkflowState('state_A');
+		$state_B = new ExampleWorkflowState('state_B');
 
 		$this->workflow->setStates([$state_A, $state_B]);
 		$this->workflow->setInitialState($state_A);

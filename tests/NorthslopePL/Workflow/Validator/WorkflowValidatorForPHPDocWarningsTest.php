@@ -6,6 +6,7 @@ use NorthslopePL\Workflow\Validator\WorkflowValidatorCollection;
 use NorthslopePL\Workflow\Workflow;
 use NorthslopePL\Workflow\WorkflowTransition;
 use PHPUnit_Framework_TestCase;
+use Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowState;
 
 class WorkflowValidatorForPHPDocWarningsTest extends PHPUnit_Framework_TestCase
 {
@@ -25,7 +26,7 @@ class WorkflowValidatorForPHPDocWarningsTest extends PHPUnit_Framework_TestCase
 	private $state_A;
 
 	/**
-	 * @var StateForValidationTesting
+	 * @var ExampleWorkflowState
 	 */
 	private $state_B;
 
@@ -40,7 +41,7 @@ class WorkflowValidatorForPHPDocWarningsTest extends PHPUnit_Framework_TestCase
 		$this->workflow = new WorkflowForValidationTesting();
 
 		$this->state_A = new StateWithoutPHPDoc();
-		$this->state_B = new StateForValidationTesting('state_B');
+		$this->state_B = new ExampleWorkflowState('state_B');
 		$this->state_B->setFinal(true);
 
 		$this->transition_A_B = new TransitionWithoutPHPDoc('state_A', 'state_B');
