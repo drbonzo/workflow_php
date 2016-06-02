@@ -1,0 +1,15 @@
+digraph TwoStatesWithTransition_Workflow {
+
+	splines="polyline"
+	labelloc="t";
+	label="TwoStatesWithTransition_
+Workflow";
+	node [shape = circle];
+
+	"state_A" [label="state_
+A"]
+	"state_B" [label="state_
+B", shape=doublecircle]
+
+	"state_A" -> "state_B" [label=""];
+}

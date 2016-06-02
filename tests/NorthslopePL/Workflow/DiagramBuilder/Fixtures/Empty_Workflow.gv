@@ -1,0 +1,12 @@
+digraph Empty_Workflow {
+
+	splines="polyline"
+	labelloc="t";
+	label="Empty_
+Workflow";
+	node [shape = circle];
+
+
+
+
+}

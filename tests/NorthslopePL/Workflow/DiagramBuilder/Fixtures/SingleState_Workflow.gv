@@ -1,0 +1,13 @@
+digraph SingleState_Workflow {
+
+	splines="polyline"
+	labelloc="t";
+	label="SingleState_
+Workflow";
+	node [shape = circle];
+
+	"state_A" [label="state_
+A"]
+
+
+}

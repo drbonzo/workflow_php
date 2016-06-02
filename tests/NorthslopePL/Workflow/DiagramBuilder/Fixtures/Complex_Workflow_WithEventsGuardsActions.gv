@@ -1,0 +1,39 @@
+digraph Complex_Workflow_WithEventsGuardsActions {
+
+	splines="polyline"
+	labelloc="t";
+	label="Complex_
+Workflow_
+WithEventsGuardsActions";
+	node [shape = circle];
+
+	"state_A" [label="state_
+A"]
+	"state_B" [label="state_
+B
+
+ enter-action: Do some work
+
+ enter-events: [onEnterEvent1, onEnterEvent2]
+
+ exit-action: Do other work
+
+ exit-events: [onExitEvent3, onExitEvent4]"]
+	"state_C" [label="state_
+C", shape=doublecircle]
+	"state_D" [label="state_
+D"]
+	"state_Error" [label="state_
+Error", shape=doublecircle]
+
+	"state_A" -> "state_B" [label=""];
+	"state_A" -> "state_C" [label="WhenFooBar, OtherBar
+[Do some condition check]
+/ Do some work during transition"];
+	"state_B" -> "state_C" [label=""];
+	"state_B" -> "state_D" [label=""];
+	"state_D" -> "state_C" [label=""];
+	"state_A" -> "state_Error" [label=""];
+	"state_B" -> "state_Error" [label=""];
+	"state_D" -> "state_Error" [label=""];
+}

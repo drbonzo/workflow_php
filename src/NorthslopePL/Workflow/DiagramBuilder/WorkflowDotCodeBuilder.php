@@ -28,10 +28,12 @@ digraph %s {
 
 %s
 }
+
 GRAPHWIZ_PATTERN;
 
 		$statesAndTransitionsCode = '';
 		$statesAndTransitionsCode .= $this->buildStatesCode($workflow);
+		$statesAndTransitionsCode .= "\n\n";
 		$statesAndTransitionsCode .= $this->buildTransitionsCode($workflow);
 
 		$code = sprintf($pattern, $name, $this->stateName($name), $statesAndTransitionsCode);
@@ -46,9 +48,9 @@ GRAPHWIZ_PATTERN;
 
 			$stateLabel = $this->buildStateString($state);
 			if ($state->isFinal()) {
-				$lines[] = sprintf('"%s" [label="%s", shape=doublecircle]', $state->getStateId(), $stateLabel);
+				$lines[] = sprintf("\t" . '"%s" [label="%s", shape=doublecircle]', $state->getStateId(), $stateLabel);
 			} else {
-				$lines[] = sprintf('"%s" [label="%s"]', $state->getStateId(), $stateLabel);
+				$lines[] = sprintf("\t" . '"%s" [label="%s"]', $state->getStateId(), $stateLabel);
 			}
 		}
 
@@ -92,7 +94,7 @@ GRAPHWIZ_PATTERN;
 		$actionString = $this->buildActionString($transition);
 		$label = sprintf('%s%s%s', $eventsString, $guardString, $actionString);
 
-		return sprintf('"%s" -> "%s" [label="%s"];', $sourceStateId, $destinationStateId, $label);
+		return sprintf("\t" . '"%s" -> "%s" [label="%s"];', $sourceStateId, $destinationStateId, $label);
 	}
 
 	private function stateName($stateId)
@@ -154,20 +156,20 @@ GRAPHWIZ_PATTERN;
 		$onExitAction = $this->getPHPDocValue($state, 'onExitAction', 'Workflow-Action');
 
 		$label = $stateName;
-		if ($onEnterEventsString) {
-			$label .= sprintf("\n\n enter-events: [%s]", $onEnterEventsString);
-		}
-
 		if ($onEnterAction !== null && strtolower($onEnterAction) !== 'none') {
 			$label .= sprintf("\n\n enter-action: %s", $onEnterAction);
 		}
 
-		if ($onExitEventsString) {
-			$label .= sprintf("\n\n exit-events: [%s]", $onExitEventsString);
+		if ($onEnterEventsString) {
+			$label .= sprintf("\n\n enter-events: [%s]", $onEnterEventsString);
 		}
 
 		if ($onExitAction !== null && strtolower($onExitAction) !== 'none') {
 			$label .= sprintf("\n\n exit-action: %s", $onExitAction);
+		}
+
+		if ($onExitEventsString) {
+			$label .= sprintf("\n\n exit-events: [%s]", $onExitEventsString);
 		}
 
 		// escape double-quotes

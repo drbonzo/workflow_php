@@ -1,0 +1,28 @@
+digraph Complex_Workflow {
+
+	splines="polyline"
+	labelloc="t";
+	label="Complex_
+Workflow";
+	node [shape = circle];
+
+	"state_A" [label="state_
+A"]
+	"state_B" [label="state_
+B"]
+	"state_C" [label="state_
+C", shape=doublecircle]
+	"state_D" [label="state_
+D"]
+	"state_Error" [label="state_
+Error", shape=doublecircle]
+
+	"state_A" -> "state_B" [label=""];
+	"state_A" -> "state_C" [label=""];
+	"state_B" -> "state_C" [label=""];
+	"state_B" -> "state_D" [label=""];
+	"state_D" -> "state_C" [label=""];
+	"state_A" -> "state_Error" [label=""];
+	"state_B" -> "state_Error" [label=""];
+	"state_D" -> "state_Error" [label=""];
+}
