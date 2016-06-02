@@ -78,7 +78,7 @@ class StateValidator implements WorkflowValidator
 	{
 		$finalStates = [];
 		foreach ($workflow->getStates() as $state) {
-			$transitionsFromState = $workflow->getTransitionsFromStateId($state->getStateId());
+			$transitionsFromState = $workflow->getTransitionsFromState($state);
 			$stateIsFinalAccordingToGraph = empty($transitionsFromState);
 			if ($stateIsFinalAccordingToGraph) {
 				$finalStates[] = $state;

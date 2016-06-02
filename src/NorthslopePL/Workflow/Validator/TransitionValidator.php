@@ -51,7 +51,7 @@ class TransitionValidator implements WorkflowValidator
 	{
 		foreach ($workflow->getStates() as $state) {
 			if ($state->isFinal()) {
-				$outgoingTransitionsFromFinalState = $workflow->getTransitionsFromStateId($state->getStateId());
+				$outgoingTransitionsFromFinalState = $workflow->getTransitionsFromState($state);
 
 				if (!empty($outgoingTransitionsFromFinalState)) {
 
@@ -103,7 +103,7 @@ class TransitionValidator implements WorkflowValidator
 		$visitedStatesId[$state->getStateId()] = $state->getStateId();
 
 		// We need to go deeper
-		$transitions = $workflow->getTransitionsFromStateId($state->getStateId());
+		$transitions = $workflow->getTransitionsFromState($state);
 
 		foreach ($transitions as $transition) {
 			$endState = $workflow->getStateForStateId($transition->getDestinationStateId());

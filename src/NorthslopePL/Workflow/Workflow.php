@@ -74,24 +74,24 @@ abstract class Workflow
 	}
 
 	/**
-	 * @param string $stateId
+	 * @param WorkflowState $sourceState
 	 *
 	 * @return WorkflowTransition[]
 	 */
-	public function getTransitionsFromStateId($stateId)
+	public function getTransitionsFromState(WorkflowState $sourceState)
 	{
 		$foundTransitions = [];
 
 		foreach ($this->transitions as $transition) {
 
-			if ($transition->getSourceStateId() == $stateId) {
+			if ($transition->getSourceStateId() == $sourceState->getStateId()) {
 
 				// starts from specified state
 				$foundTransitions[] = $transition;
 
 			} else if ($transition->startsFromAnyStateId()) {
 
-				$state = $this->getStateForStateId($stateId);
+				$state = $sourceState;
 				if ($this->stateMayBeASourceForWildcardTransition($state, $transition)) {
 					$foundTransitions[] = $transition;
 				}
@@ -144,7 +144,7 @@ abstract class Workflow
 		if ($wildcardTransition->startsFromAnyStateId() === false) {
 			return false;
 		}
-		
+
 		if ($wildcardTransition->getDestinationStateId() == $state->getStateId()) {
 			return false;
 		}

@@ -229,28 +229,28 @@ class WorkflowTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @param string $sourceStateId
+	 * @param WorkflowState $sourceState
 	 * @param WorkflowTransition[] $expectedTransitions
 	 *
-	 * @dataProvider getTransitionsFromStateIdDataProvider
+	 * @dataProvider getTransitionsFromStateDataProvider
 	 */
-	public function testGetTransitionsFromStateId($sourceStateId, $expectedTransitions)
+	public function testGetTransitionsFromState($sourceState, $expectedTransitions)
 	{
-		$actualTransitions = $this->workflow->getTransitionsFromStateId($sourceStateId);
+		$actualTransitions = $this->workflow->getTransitionsFromState($sourceState);
 
 		$this->assertEquals($expectedTransitions, $actualTransitions);
 	}
 
-	public function getTransitionsFromStateIdDataProvider()
+	public function getTransitionsFromStateDataProvider()
 	{
 		$this->initializeWorkflow();
 
 		return [
-			[$this->state_A->getStateId(), [$this->transition_A_B, $this->transition_A_C, $this->errorTransition]],
-			[$this->state_B->getStateId(), [$this->transition_B_C, $this->transition_B_D, $this->errorTransition]],
-			[$this->state_C->getStateId(), []],
-			[$this->state_D->getStateId(), [$this->transition_D_C, $this->errorTransition]],
-			[$this->state_Error->getStateId(), []],
+			[$this->state_A, [$this->transition_A_B, $this->transition_A_C, $this->errorTransition]],
+			[$this->state_B, [$this->transition_B_C, $this->transition_B_D, $this->errorTransition]],
+			[$this->state_C, []],
+			[$this->state_D, [$this->transition_D_C, $this->errorTransition]],
+			[$this->state_Error, []],
 		];
 	}
 }

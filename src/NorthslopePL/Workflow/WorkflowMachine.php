@@ -1,7 +1,6 @@
 <?php
 namespace NorthslopePL\Workflow;
 
-use NorthslopePL\Workflow\Exceptions\WorkflowLogicException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -145,7 +144,7 @@ class WorkflowMachine
 	 */
 	private function getPotentialTransitions(Workflow $workflow, WorkflowContext $context, $eventName, WorkflowState $currentState)
 	{
-		$allTransitionsFromCurrentState = $workflow->getTransitionsFromStateId($currentState->getStateId());
+		$allTransitionsFromCurrentState = $workflow->getTransitionsFromState($currentState);
 
 		$potentialTransitions = [];
 		foreach ($allTransitionsFromCurrentState as $transition) {
@@ -173,7 +172,7 @@ class WorkflowMachine
 		} else {
 			$sourceState = $workflow->getStateForStateId($transition->getSourceStateId());
 		}
-		
+
 		$destinationState = $workflow->getStateForStateId($transition->getDestinationStateId());
 
 		$this->log(sprintf('        Transition-Start: %s => %s', $sourceState->getStateId(), $destinationState->getStateId()));
@@ -249,7 +248,7 @@ class WorkflowMachine
 
 			$context = $contextCollection->getContext(get_class($workflow));
 
-			$transitions = $workflow->getTransitionsFromStateId($context->getCurrentStateId());
+			$transitions = $workflow->getTransitionsFromState($context);
 
 			foreach ($transitions as $transition) {
 				if ($transition->checkGuardCondition($context)) {
