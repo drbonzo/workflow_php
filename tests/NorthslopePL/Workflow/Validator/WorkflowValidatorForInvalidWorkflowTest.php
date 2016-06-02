@@ -5,6 +5,7 @@ use NorthslopePL\Workflow\Validator\WorkflowValidationError;
 use NorthslopePL\Workflow\Validator\WorkflowValidatorCollection;
 use NorthslopePL\Workflow\Workflow;
 use PHPUnit_Framework_TestCase;
+use Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowTransition;
 
 class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 {
@@ -124,8 +125,8 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		);
 		$this->workflow->setInitialState($state_A);
 
-		$transition_A_B = new TransitionForValidationTesting('state_A', 'state_B', null);
-		$transition_C_D = new TransitionForValidationTesting('state_C', 'state_D', null);
+		$transition_A_B = new ExampleWorkflowTransition('state_A', 'state_B', null);
+		$transition_C_D = new ExampleWorkflowTransition('state_C', 'state_D', null);
 		$this->workflow->setTransitions(
 			[
 				$transition_A_B,
@@ -159,7 +160,7 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		);
 		$this->workflow->setInitialState($state_A);
 
-		$transition_A_B = new TransitionForValidationTesting('state_A', 'state_B', []);
+		$transition_A_B = new ExampleWorkflowTransition('state_A', 'state_B', []);
 		$this->workflow->setTransitions(
 			[
 				$transition_A_B,
@@ -192,9 +193,9 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		);
 		$this->workflow->setInitialState($state_A);
 
-		$transition_B_C = new TransitionForValidationTesting('state_B', 'state_C', []);
-		$transition_C_D = new TransitionForValidationTesting('state_C', 'state_D', []);
-		$transition_D_B = new TransitionForValidationTesting('state_D', 'state_B', []);
+		$transition_B_C = new ExampleWorkflowTransition('state_B', 'state_C', []);
+		$transition_C_D = new ExampleWorkflowTransition('state_C', 'state_D', []);
+		$transition_D_B = new ExampleWorkflowTransition('state_D', 'state_B', []);
 
 		$this->workflow->setTransitions(
 			[
@@ -232,8 +233,8 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		);
 		$this->workflow->setInitialState($state_A);
 
-		$transition_A_B = new TransitionForValidationTesting('state_A', 'state_B', []);
-		$transition_A_C = new TransitionForValidationTesting('state_A', 'state_C', []);
+		$transition_A_B = new ExampleWorkflowTransition('state_A', 'state_B', []);
+		$transition_A_C = new ExampleWorkflowTransition('state_A', 'state_C', []);
 
 		$this->workflow->setTransitions(
 			[
@@ -271,10 +272,10 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		);
 		$this->workflow->setInitialState($state_A);
 
-		$transition_A_B = new TransitionForValidationTesting('state_A', 'state_B', []);
-		$transition_A_C = new TransitionForValidationTesting('state_A', 'state_C', []);
-		$transition_A_D = new TransitionForValidationTesting('state_A', 'state_D', []);
-		$transition_C_D = new TransitionForValidationTesting('state_C', 'state_D', []); // invalid
+		$transition_A_B = new ExampleWorkflowTransition('state_A', 'state_B', []);
+		$transition_A_C = new ExampleWorkflowTransition('state_A', 'state_C', []);
+		$transition_A_D = new ExampleWorkflowTransition('state_A', 'state_D', []);
+		$transition_C_D = new ExampleWorkflowTransition('state_C', 'state_D', []); // invalid
 
 		$this->workflow->setTransitions(
 			[
@@ -294,7 +295,7 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		$actualValidationErrors = $actualResult->getValidationErrors();
 
 		// $checkForObjectIdentity must be false as we have different object instances
-		$this->assertContains(new WorkflowValidationError($state_C, 'WorkflowState "state_C" is marked as final, so it cannot have outgoing transitions: Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting( "state_C" => "state_D" )'), $actualValidationErrors, '', false, false);
+		$this->assertContains(new WorkflowValidationError($state_C, 'WorkflowState "state_C" is marked as final, so it cannot have outgoing transitions: Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowTransition( "state_C" => "state_D" )'), $actualValidationErrors, '', false, false);
 	}
 
 	public function testWorkflowStateEventsMustBeArrays()
@@ -327,8 +328,8 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		);
 		$this->workflow->setInitialState($state_A);
 
-		$transition_A_B = new TransitionForValidationTesting('state_A', 'state_B', null);
-		$transition_C_D = new TransitionForValidationTesting('state_C', 'state_D', null);
+		$transition_A_B = new ExampleWorkflowTransition('state_A', 'state_B', null);
+		$transition_C_D = new ExampleWorkflowTransition('state_C', 'state_D', null);
 		$this->workflow->setTransitions(
 			[
 				$transition_A_B,
@@ -340,8 +341,8 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 
 		$actualValidationErrors = $actualResult->getValidationErrors();
 		// $checkForObjectIdentity must be false as we have different object instances
-		$this->assertContains(new WorkflowValidationError($transition_C_D, 'WorkflowTransition Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting ("state_C" => "state_D") uses invalid sourceStateId: "state_C"'), $actualValidationErrors, '', false, false);
-		$this->assertContains(new WorkflowValidationError($transition_C_D, 'WorkflowTransition Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting ("state_C" => "state_D") uses invalid destinationStateId: "state_D"'), $actualValidationErrors, '', false, false);
+		$this->assertContains(new WorkflowValidationError($transition_C_D, 'WorkflowTransition Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowTransition ("state_C" => "state_D") uses invalid sourceStateId: "state_C"'), $actualValidationErrors, '', false, false);
+		$this->assertContains(new WorkflowValidationError($transition_C_D, 'WorkflowTransition Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowTransition ("state_C" => "state_D") uses invalid destinationStateId: "state_D"'), $actualValidationErrors, '', false, false);
 	}
 
 	public function testWildcardTransitionWithoutEvent()
@@ -353,14 +354,14 @@ class WorkflowValidatorForInvalidWorkflowTest extends PHPUnit_Framework_TestCase
 		$this->workflow->setInitialState($state_A);
 
 		$noEvents = [];
-		$wildcardTransition = new TransitionForValidationTesting($state_A->getStateId(), $state_B->getStateId(), $noEvents);
+		$wildcardTransition = new ExampleWorkflowTransition($state_A->getStateId(), $state_B->getStateId(), $noEvents);
 		$wildcardTransition->setStartsFromAnyStateId(true);
 		$this->workflow->setTransitions([$wildcardTransition]);
 
 		$actualResult = $this->validator->validate($this->workflow);
 
 		$actualValidationErrors = $actualResult->getValidationErrors();
-		$this->assertContains(new WorkflowValidationError($wildcardTransition, 'WorkflowTransition Tests\NorthslopePL\Workflow\Validator\TransitionForValidationTesting ("state_A" => "state_B") must be triggered by at least one event'), $actualValidationErrors, '', false, false);
+		$this->assertContains(new WorkflowValidationError($wildcardTransition, 'WorkflowTransition Tests\NorthslopePL\Workflow\Fixtures\ExampleWorkflowTransition ("state_A" => "state_B") must be triggered by at least one event'), $actualValidationErrors, '', false, false);
 	}
 
 }

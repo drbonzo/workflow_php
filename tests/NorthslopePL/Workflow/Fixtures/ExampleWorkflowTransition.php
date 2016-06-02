@@ -25,10 +25,11 @@ class ExampleWorkflowTransition implements WorkflowTransition
 	 */
 	private $eventNames = [];
 
-	public function __construct($sourceStateId, $destinationStateId)
+	public function __construct($sourceStateId, $destinationStateId, $eventNames = [])
 	{
 		$this->sourceStateId = $sourceStateId;
 		$this->destinationStateId = $destinationStateId;
+		$this->eventNames = $eventNames;
 	}
 
 	public function getSourceStateId()

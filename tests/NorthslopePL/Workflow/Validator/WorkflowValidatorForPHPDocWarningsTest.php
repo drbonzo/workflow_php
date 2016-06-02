@@ -4,6 +4,7 @@ namespace Tests\NorthslopePL\Workflow\Validator;
 use NorthslopePL\Workflow\Validator\WorkflowValidationError;
 use NorthslopePL\Workflow\Validator\WorkflowValidatorCollection;
 use NorthslopePL\Workflow\Workflow;
+use NorthslopePL\Workflow\WorkflowTransition;
 use PHPUnit_Framework_TestCase;
 
 class WorkflowValidatorForPHPDocWarningsTest extends PHPUnit_Framework_TestCase
@@ -29,7 +30,7 @@ class WorkflowValidatorForPHPDocWarningsTest extends PHPUnit_Framework_TestCase
 	private $state_B;
 
 	/**
-	 * @var TransitionForValidationTesting
+	 * @var WorkflowTransition
 	 */
 	private $transition_A_B;
 
