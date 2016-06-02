@@ -53,7 +53,7 @@ class WorkflowBuilderManager
 	/**
 	 * @return WorkflowContextCollection
 	 */
-	public function buildContextContainer()
+	public function buildWorkflowContextCollection()
 	{
 		return $this->workflowBuilderDelegate->getWorkflowContextCollection();
 	}
