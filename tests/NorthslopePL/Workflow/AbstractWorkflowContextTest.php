@@ -1,7 +1,6 @@
 <?php
 namespace Tests\NorthslopePL\Workflow;
 
-use DateTime;
 use PHPUnit_Framework_TestCase;
 use Tests\NorthslopePL\Workflow\Fixtures\DefaultWorkflowContext;
 
