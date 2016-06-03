@@ -1,8 +1,6 @@
 <?php
 namespace NorthslopePL\Workflow;
 
-use DateTime;
-
 trait AbstractWorkflowContext
 {
 	/**
@@ -14,11 +12,6 @@ trait AbstractWorkflowContext
 	 * @var array|mixed[]
 	 */
 	protected $values = [];
-
-	/**
-	 * @var DateTime
-	 */
-	protected $lastStateChangedAt = null;
 
 	/**
 	 * @return string
@@ -55,14 +48,6 @@ trait AbstractWorkflowContext
 		if (isset($this->values[$name])) {
 			unset($this->values[$name]);
 		}
-	}
-
-	/**
-	 * @return DateTime
-	 */
-	public function getLastStateChangedAt()
-	{
-		return $this->lastStateChangedAt;
 	}
 
 	/**

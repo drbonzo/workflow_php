@@ -16,6 +16,7 @@ Versions
 _2016-06-03_
 
 * Added support for time based guards. See `AbstractWorkflowTransition::timeHasPassed()`
+* Removed AbstractWorkflowContext::getLastStateChangedAt() and $lastStateChangedAt, you need to implement it in your subclass
 
 <a name="version_0_2_0"></a>
 

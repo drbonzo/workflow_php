@@ -27,16 +27,6 @@ class AbstractWorkflowContextTest extends PHPUnit_Framework_TestCase
 		$this->assertSame($stateId, $this->workflowContext->getCurrentStateId());
 	}
 
-	public function testGetLastStateChangedAt()
-	{
-		$this->assertNull($this->workflowContext->getLastStateChangedAt());
-
-		$dateTime = new DateTime();
-		$this->workflowContext->setLastStateChangedAt($dateTime);
-
-		$this->assertEquals($dateTime, $this->workflowContext->getLastStateChangedAt());
-	}
-
 	public function testValues()
 	{
 		$this->assertNull($this->workflowContext->getValue('foo'));

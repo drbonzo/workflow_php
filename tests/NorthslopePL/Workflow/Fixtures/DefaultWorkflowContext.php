@@ -19,4 +19,12 @@ class DefaultWorkflowContext implements WorkflowContext
 		$this->lastStateChangedAt = $dateTime;
 	}
 
+	/**
+	 * @return DateTime
+	 */
+	public function getLastStateChangedAt()
+	{
+		return new DateTime();
+	}
+
 }
