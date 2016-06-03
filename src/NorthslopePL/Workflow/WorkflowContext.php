@@ -37,9 +37,4 @@ interface WorkflowContext
 	 */
 	public function getLastStateChangedAt();
 
-	/**
-	 * @return string[]
-	 */
-	public function getStateHistory();
-
 }

@@ -39,9 +39,4 @@ class AbstractWorkflowContextTest extends PHPUnit_Framework_TestCase
 		$this->workflowContext->unsetValue('foo');
 		$this->assertNull($this->workflowContext->getValue('foo'));
 	}
-
-	public function testGetStateHistory()
-	{
-		$this->assertSame([], $this->workflowContext->getStateHistory());
-	}
 }

@@ -49,12 +49,4 @@ trait AbstractWorkflowContext
 			unset($this->values[$name]);
 		}
 	}
-
-	/**
-	 * @return string[]
-	 */
-	public function getStateHistory()
-	{
-		return [];
-	}
 }
