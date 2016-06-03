@@ -3,14 +3,23 @@
 Versions
 
 - development
+  - [0.3.0](#version_0_3_0)
   - [0.2.0](#version_0_2_0)
   - [0.1.0](#version_0_1_0)
 - stable
   - none yet
 
+<a name="version_0_3_0"></a>
+
+## 0.3.0
+
+_2016-06-03_
+
+* Added support for time based guards. See `AbstractWorkflowTransition::timeHasPassed()`
+
 <a name="version_0_2_0"></a>
 
-## 0.2.0 
+## 0.2.0
 
 _2016-06-02_
 

@@ -1,6 +1,8 @@
 <?php
 namespace NorthslopePL\Workflow;
 
+use DateTime;
+
 /**
  * Use this trait in your class to simplify it's code by using default configuration.
  */
@@ -40,5 +42,26 @@ trait AbstractWorkflowTransition
 	 */
 	public function run($context)
 	{
+	}
+
+	/**
+	 * @param WorkflowContext $context
+	 * @param string $timeExpression - see http://php.net/manual/en/datetime.modify.php must be positive (like +5 days)
+	 *
+	 * @return bool
+	 */
+	protected function timeHasPassed($context, $timeExpression)
+	{
+		$lastStateChangeDateTime = $context->getLastStateChangedAt();
+		if ($lastStateChangeDateTime === null) {
+			return false;
+		}
+
+		$expirationTime = clone $lastStateChangeDateTime;
+		$expirationTime->modify($timeExpression);
+		$now = new DateTime('now');
+
+		$timeHasPassed = ($now > $expirationTime);
+		return $timeHasPassed;
 	}
 }
