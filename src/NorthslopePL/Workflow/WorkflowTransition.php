@@ -16,7 +16,7 @@ interface WorkflowTransition
 
 	/**
 	 * if true then
-	 * - this transition starts from any state
+	 * - this transition starts from any state (aka Wildcard Transition)
 	 * - set getSourceStateId() to return WorkflowTransition::__ANY_STATE
 	 * - getEventNames() MUST return at least one event name
 	 *

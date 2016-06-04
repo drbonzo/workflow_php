@@ -196,11 +196,7 @@ class WorkflowMachine
 
 	private function performTransition(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, WorkflowTransition $transition, WorkflowState $currentState)
 	{
-		if ($transition->startsFromAnyStateId()) {
-			$sourceState = $currentState;
-		} else {
-			$sourceState = $workflow->getStateForStateId($transition->getSourceStateId());
-		}
+		$sourceState = $this->getSourceState($workflow, $transition, $currentState);
 
 		$destinationState = $workflow->getStateForStateId($transition->getDestinationStateId());
 
@@ -239,6 +235,26 @@ class WorkflowMachine
 			}
 		}
 		$this->eventDispatcher->dispatch(WorkflowEvents::AFTER_TRANSITION, new WorkflowEvent($context));
+	}
+
+	/**
+	 * Returns effective source state for the Transition.
+	 *
+	 * If this is a Wildcard Transition then $currentState is treated as sourceState - as such Transition can start from any State.
+	 *
+	 * @param Workflow $workflow
+	 * @param WorkflowTransition $transition
+	 * @param WorkflowState $currentState
+	 *
+	 * @return WorkflowState
+	 */
+	private function getSourceState(Workflow $workflow, WorkflowTransition $transition, WorkflowState $currentState)
+	{
+		if ($transition->startsFromAnyStateId()) {
+			return $currentState;
+		} else {
+			return $workflow->getStateForStateId($transition->getSourceStateId());
+		}
 	}
 
 	/**
@@ -298,5 +314,6 @@ class WorkflowMachine
 			$this->logger->log($logLevel, $message);
 		}
 	}
+
 
 }
