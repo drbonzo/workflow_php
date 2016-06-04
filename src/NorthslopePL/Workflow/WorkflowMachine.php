@@ -44,6 +44,7 @@ class WorkflowMachine
 
 		$transitionWasPerformed = false;
 
+		// Try to execute each of the Workflows
 		foreach ($workflowCollection->getWorkflows() as $workflow) {
 
 			$context = $contextCollection->getContext(get_class($workflow));
@@ -57,8 +58,11 @@ class WorkflowMachine
 
 		$this->log(sprintf('---- Execute-End: %s', $eventName ? $eventName : '(none)'));
 
-		// if something has changed in any of workflows - then rerun all workflows
-		// without an event to move all transitions that wiated for their guard to complete
+		// If any Transition was performed in any of the Workflows - then rerun all Workflows again.
+		// This time without an event.
+		//
+		// This allows to trigger other Transitions that waited for their Guard to be true.
+		// As something has changed in the target object - some Guards may be now true.
 		if ($transitionWasPerformed) {
 			$this->execute($workflowCollection, $contextCollection, null);
 		}
