@@ -203,15 +203,19 @@ class WorkflowMachine
 		$this->log(sprintf('        Transition-Start: %s => %s', $sourceState->getStateId(), $destinationState->getStateId()));
 		$this->eventDispatcher->dispatch(WorkflowEvents::BEFORE_TRANSITION, new WorkflowEvent($context));
 		{
+			// EXIT ACTION
 			$this->log(sprintf('        Source:onExitAction()'));
 			$sourceState->onExitAction($context);
 
+			// EXIT EVENTS
 			foreach ($sourceState->getOnExitEvents() as $eventName) {
 				$this->execute($workflowCollection, $contextCollection, $eventName);
 			}
 
+			// TRANSITON:RUN
 			$transition->run($context);
 
+			// CHANGE STATE
 			$context->setCurrentStateId($destinationState->getStateId());
 			$this->eventDispatcher->dispatch(WorkflowEvents::STATE_CHANGED, new WorkflowEvent($context));
 
@@ -227,9 +231,11 @@ class WorkflowMachine
 			);
 
 
+			// ENTER ACTION
 			$this->log(sprintf('        Destination:onEnterAction()'));
 			$destinationState->onEnterAction($context);
 
+			// ENTER EVENTS
 			foreach ($destinationState->getOnEnterEvents() as $eventName) {
 				$this->execute($workflowCollection, $contextCollection, $eventName);
 			}
