@@ -50,8 +50,10 @@ class WorkflowMachine
 			$context = $contextCollection->getContext(get_class($workflow));
 
 			$this->eventDispatcher->dispatch(WorkflowEvents::BEGIN_EXECUTION, new WorkflowEvent($context));
+
 			$twp = $this->executeOnWorkflow($workflowCollection, $contextCollection, $workflow, $context, $eventName);
 			$transitionWasPerformed = $transitionWasPerformed || $twp;
+
 			$this->eventDispatcher->dispatch(WorkflowEvents::END_EXECUTION, new WorkflowEvent($context));
 
 		}
@@ -84,11 +86,10 @@ class WorkflowMachine
 		$this->log(sprintf('Workflow-Start: %s, Event: %s', $workflow->getName(), $eventName));
 
 		$transitionWasPerformed = false;
+
 		do {
 
-			if ($context->getCurrentStateId() === null) {
-				$context->setCurrentStateId($workflow->getInitialState()->getStateId());
-			}
+			$this->ensureCurrentState($context, $workflow);
 
 			$currentState = $workflow->getStateForStateId($context->getCurrentStateId());
 
@@ -117,6 +118,13 @@ class WorkflowMachine
 		$this->log(sprintf('Workflow-End:   %s, Event: %s', $workflow->getName(), $eventName));
 
 		return $transitionWasPerformed;
+	}
+
+	private function ensureCurrentState(WorkflowContext $context, Workflow $workflow)
+	{
+		if ($context->getCurrentStateId() === null) {
+			$context->setCurrentStateId($workflow->getInitialState()->getStateId());
+		}
 	}
 
 	/**
@@ -153,20 +161,37 @@ class WorkflowMachine
 		$potentialTransitions = [];
 		foreach ($allTransitionsFromCurrentState as $transition) {
 
-			if ($eventName === null && ($transition->getEventNames() === [])) {
+			if ($this->eventTriggersTransition($eventName, $transition)) {
 				if ($transition->checkGuardCondition($context)) {
 					$potentialTransitions[] = $transition;
 				}
-			} else if (in_array($eventName, $transition->getEventNames())) {
-				if ($transition->checkGuardCondition($context)) {
-					$potentialTransitions[] = $transition;
-				}
-			} else {
-				// skip this transition
 			}
 		}
 
 		return $potentialTransitions;
+	}
+
+	/**
+	 * @param $eventName
+	 * @param WorkflowTransition $transition
+	 *
+	 * @return bool
+	 */
+	private function eventTriggersTransition($eventName, WorkflowTransition $transition)
+	{
+		if ($eventName === null && ($transition->getEventNames() === [])) {
+			// if no Event was given, thent Transition must not any events triggering it
+			return true;
+
+		} else if (in_array($eventName, $transition->getEventNames())) {
+			// if Event was given, then check if transition is triggered by that event
+			// it's enough to trigger a transition with one of its all events
+			return true;
+
+		} else {
+			// skip this transition
+			return false;
+		}
 	}
 
 	private function performTransition(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, WorkflowTransition $transition, WorkflowState $currentState)

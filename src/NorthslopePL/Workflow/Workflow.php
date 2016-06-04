@@ -74,6 +74,9 @@ abstract class Workflow
 	}
 
 	/**
+	 * Returns all transitions that have $sourceState as their ... source State.
+	 * Also returns wildcard transitions - that start on any state.
+	 * 
 	 * @param WorkflowState $sourceState
 	 *
 	 * @return WorkflowTransition[]
