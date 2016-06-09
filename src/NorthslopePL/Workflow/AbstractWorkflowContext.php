@@ -4,22 +4,9 @@ namespace NorthslopePL\Workflow;
 trait AbstractWorkflowContext
 {
 	/**
-	 * @var string
-	 */
-	protected $currentStateId = null;
-
-	/**
 	 * @var array|mixed[]
 	 */
 	protected $values = [];
-
-	/**
-	 * @return string
-	 */
-	public function getCurrentStateId()
-	{
-		return $this->currentStateId;
-	}
 
 	/**
 	 * @param string $name

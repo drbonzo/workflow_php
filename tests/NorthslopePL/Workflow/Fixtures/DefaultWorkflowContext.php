@@ -9,14 +9,30 @@ class DefaultWorkflowContext implements WorkflowContext
 {
 	use AbstractWorkflowContext;
 
-	public function setCurrentStateId($stateId)
+	/**
+	 * @var string
+	 */
+	private $currentStateId = null;
+
+	/**
+	 * @var DateTime
+	 */
+	private $lastStateChangedAt = null;
+
+	/**
+	 * @return string
+	 */
+	public function getCurrentStateId()
 	{
-		$this->currentStateId = $stateId;
+		return $this->currentStateId;
 	}
 
-	public function setLastStateChangedAt(DateTime $dateTime)
+	/**
+	 * @param string $currentStateId
+	 */
+	public function setCurrentStateId($currentStateId)
 	{
-		$this->lastStateChangedAt = $dateTime;
+		$this->currentStateId = $currentStateId;
 	}
 
 	/**
@@ -24,7 +40,15 @@ class DefaultWorkflowContext implements WorkflowContext
 	 */
 	public function getLastStateChangedAt()
 	{
-		return new DateTime();
+		return $this->lastStateChangedAt;
+	}
+
+	/**
+	 * @param DateTime $lastStateChangedAt
+	 */
+	public function setLastStateChangedAt($lastStateChangedAt)
+	{
+		$this->lastStateChangedAt = $lastStateChangedAt;
 	}
 
 }
