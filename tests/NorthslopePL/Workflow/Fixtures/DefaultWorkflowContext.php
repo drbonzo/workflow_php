@@ -2,13 +2,10 @@
 namespace Tests\NorthslopePL\Workflow\Fixtures;
 
 use DateTime;
-use NorthslopePL\Workflow\AbstractWorkflowContext;
 use NorthslopePL\Workflow\WorkflowContext;
 
 class DefaultWorkflowContext implements WorkflowContext
 {
-	use AbstractWorkflowContext;
-
 	/**
 	 * @var string
 	 */
