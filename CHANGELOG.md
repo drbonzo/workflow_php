@@ -3,11 +3,24 @@
 Versions
 
 - development
+  - [0.4.0](#version_0_4_0)
   - [0.3.0](#version_0_3_0)
   - [0.2.0](#version_0_2_0)
   - [0.1.0](#version_0_1_0)
 - stable
   - none yet
+
+<a name="version_0_4_0"></a>
+
+## 0.4.0
+
+_2016-06-09_
+
+* Removed `AbstractWorkflowTransition`
+* Removed methods from WorkflowContext
+	- getValue()
+	- setValue(...)
+	- unsetValue(...)
 
 <a name="version_0_3_0"></a>
 
