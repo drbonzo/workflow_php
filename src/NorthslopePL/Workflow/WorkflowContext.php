@@ -16,23 +16,6 @@ interface WorkflowContext
 	public function setCurrentStateId($stateId);
 
 	/**
-	 * @param string $name
-	 * @return string
-	 */
-	public function getValue($name);
-
-	/**
-	 * @param string $name
-	 * @param string $value
-	 */
-	public function setValue($name, $value);
-
-	/**
-	 * @param string $name
-	 */
-	public function unsetValue($name);
-
-	/**
 	 * @return DateTime
 	 */
 	public function getLastStateChangedAt();
