@@ -107,6 +107,10 @@ class WorkflowMachine
 			//
 			//
 			$this->performTransition($workflowCollection, $contextCollection, $workflow, $context, $transitionToRun, $currentState);
+
+			// SAVE ALL CHANGES
+			$context->commit();
+
 			$transitionWasPerformed = true;
 			//
 			//

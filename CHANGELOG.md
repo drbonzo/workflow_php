@@ -1,16 +1,12 @@
 # Changelog
 
-Versions
+## 0.5.0
 
-- development
-  - [0.4.0](#version_0_4_0)
-  - [0.3.0](#version_0_3_0)
-  - [0.2.0](#version_0_2_0)
-  - [0.1.0](#version_0_1_0)
-- stable
-  - none yet
+_2016-06-10_
 
-<a name="version_0_4_0"></a>
+* WorkflowMachine calls WorkflowContext::commit() after performing single Transition to save changes in object being processed by the Workflow
+	- Added WorkflowContext::commit()
+
 
 ## 0.4.0
 
@@ -22,8 +18,6 @@ _2016-06-09_
 	- setValue(...)
 	- unsetValue(...)
 
-<a name="version_0_3_0"></a>
-
 ## 0.3.0
 
 _2016-06-03_
@@ -31,8 +25,6 @@ _2016-06-03_
 * Added support for time based guards. See `AbstractWorkflowTransition::timeHasPassed()`
 * Removed `AbstractWorkflowContext::getLastStateChangedAt()` and `$lastStateChangedAt`, you need to implement it in your subclass
 * Removed `AbstractWorkflowContext::getStateHistory()` - not needed... yet
-
-<a name="version_0_2_0"></a>
 
 ## 0.2.0
 
@@ -44,8 +36,6 @@ _2016-06-02_
 * Improved DOT diagram generation
 * Some small refactorings in methods, params
 * Fixed validation messages
-
-<a name="version_0_1_0"></a>
 
 ## 0.1.0 - Initial version
 

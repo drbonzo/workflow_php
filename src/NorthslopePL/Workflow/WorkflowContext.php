@@ -20,4 +20,12 @@ interface WorkflowContext
 	 */
 	public function getLastStateChangedAt();
 
+	/**
+	 * Saves changed in object covered by Workflow.
+	 * May be called many times during on call to $workflowMachine->execute()
+	 * 
+	 * @return void
+	 */
+	public function commit();
+
 }

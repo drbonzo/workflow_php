@@ -48,4 +48,8 @@ class DefaultWorkflowContext implements WorkflowContext
 		$this->lastStateChangedAt = $lastStateChangedAt;
 	}
 
+	public function commit()
+	{
+	}
+
 }
