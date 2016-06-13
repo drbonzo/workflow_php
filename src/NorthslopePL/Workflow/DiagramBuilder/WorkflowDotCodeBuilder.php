@@ -75,19 +75,19 @@ GRAPHWIZ_PATTERN;
 
 		$label = $stateName;
 		if ($onEnterAction !== null && strtolower($onEnterAction) !== 'none') {
-			$label .= sprintf("\n\n enter-action: %s", $onEnterAction);
+			$label .= sprintf("\n\n enter-action: %s", $this->wordWrap($onEnterAction));
 		}
 
 		if ($onEnterEventsString) {
-			$label .= sprintf("\n\n enter-events: [%s]", $onEnterEventsString);
+			$label .= sprintf("\n\n enter-events: [%s]", $this->wordWrap($onEnterEventsString));
 		}
 
 		if ($onExitAction !== null && strtolower($onExitAction) !== 'none') {
-			$label .= sprintf("\n\n exit-action: %s", $onExitAction);
+			$label .= sprintf("\n\n exit-action: %s", $this->wordWrap($onExitAction));
 		}
 
 		if ($onExitEventsString) {
-			$label .= sprintf("\n\n exit-events: [%s]", $onExitEventsString);
+			$label .= sprintf("\n\n exit-events: [%s]", $this->wordWrap($onExitEventsString));
 		}
 
 		// escape double-quotes
@@ -130,7 +130,7 @@ GRAPHWIZ_PATTERN;
 		$eventsString = $this->buildEventsString($transition->getEventNames());
 		$guardString = $this->buildGuardString($transition);
 		$actionString = $this->buildActionString($transition);
-		$label = sprintf('%s%s%s', $eventsString, $guardString, $actionString);
+		$label = sprintf('%s%s%s', $this->wordWrap($eventsString), $this->wordWrap($guardString), $this->wordWrap($actionString));
 
 		return sprintf("\t" . '"%s" -> "%s" [label="%s"];', $sourceStateId, $destinationStateId, $label);
 	}
@@ -193,4 +193,16 @@ GRAPHWIZ_PATTERN;
 		return join(", ", $events);
 	}
 
+	/**
+	 * @param string $text
+	 * @return string
+	 */
+	private function wordWrap($text)
+	{
+		if (empty($text)) {
+			return $text;
+		} else {
+			return wordwrap($text, 20, "\n", false);
+		}
+	}
 }

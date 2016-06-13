@@ -9,6 +9,7 @@ _2016-06-13_
   * Added `EventDispatcher $eventDispatcher` to `WorkflowMachine::execute(...)`
   * this allows to call `execute()` with different `$eventDispatcher`
   * and you don't need to setup `$eventDispatcher` just to retrieve events from Workflows
+* `WorkflowDotCodeBuilder` wraps Guards, Actions and Event names to 20 characters
 
 ## 0.5.0
 
