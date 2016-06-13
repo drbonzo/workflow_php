@@ -57,6 +57,44 @@ GRAPHWIZ_PATTERN;
 		return join("\n", $lines);
 	}
 
+
+	private function stateName($stateId)
+	{
+		return str_replace('_', "_\n", $stateId);
+	}
+
+	private function buildStateString(WorkflowState $state)
+	{
+		$stateName = $this->stateName($state->getStateId());
+
+		$onEnterEventsString = $this->buildEventsString($state->getOnEnterEvents());
+		$onExitEventsString = $this->buildEventsString($state->getOnExitEvents());
+
+		$onEnterAction = $this->getPHPDocValue($state, 'onEnterAction', 'Workflow-Action');
+		$onExitAction = $this->getPHPDocValue($state, 'onExitAction', 'Workflow-Action');
+
+		$label = $stateName;
+		if ($onEnterAction !== null && strtolower($onEnterAction) !== 'none') {
+			$label .= sprintf("\n\n enter-action: %s", $onEnterAction);
+		}
+
+		if ($onEnterEventsString) {
+			$label .= sprintf("\n\n enter-events: [%s]", $onEnterEventsString);
+		}
+
+		if ($onExitAction !== null && strtolower($onExitAction) !== 'none') {
+			$label .= sprintf("\n\n exit-action: %s", $onExitAction);
+		}
+
+		if ($onExitEventsString) {
+			$label .= sprintf("\n\n exit-events: [%s]", $onExitEventsString);
+		}
+
+		// escape double-quotes
+		$label = str_replace("\"", "\\\"", $label);
+		return $label;
+	}
+
 	private function buildTransitionsCode(Workflow $workflow)
 	{
 		$lines = [];
@@ -97,28 +135,23 @@ GRAPHWIZ_PATTERN;
 		return sprintf("\t" . '"%s" -> "%s" [label="%s"];', $sourceStateId, $destinationStateId, $label);
 	}
 
-	private function stateName($stateId)
-	{
-		return str_replace('_', "_\n", $stateId);
-	}
-
 	private function buildGuardString(WorkflowTransition $transition)
 	{
 		$guard = $this->getPHPDocValue($transition, 'checkGuardCondition', 'Workflow-Guard');
-		if ($guard === null || strtolower($guard) === 'none') {
-			return '';
-		} else {
+		if ($guard !== null && strtolower($guard) !== 'none') {
 			return sprintf("\n[%s]", $guard);
+		} else {
+			return '';
 		}
 	}
 
 	private function buildActionString(WorkflowTransition $transition)
 	{
 		$action = $this->getPHPDocValue($transition, 'run', 'Workflow-Action');
-		if ($action === null || strtolower($action) === 'none') {
-			return '';
-		} else {
+		if ($action !== null && strtolower($action) !== 'none') {
 			return sprintf("\n/ %s", $action);
+		} else {
+			return '';
 		}
 	}
 
@@ -145,38 +178,6 @@ GRAPHWIZ_PATTERN;
 		}
 	}
 
-	private function buildStateString(WorkflowState $state)
-	{
-		$stateName = $this->stateName($state->getStateId());
-
-		$onEnterEventsString = $this->buildEventsString($state->getOnEnterEvents());
-		$onExitEventsString = $this->buildEventsString($state->getOnExitEvents());
-
-		$onEnterAction = $this->getPHPDocValue($state, 'onEnterAction', 'Workflow-Action');
-		$onExitAction = $this->getPHPDocValue($state, 'onExitAction', 'Workflow-Action');
-
-		$label = $stateName;
-		if ($onEnterAction !== null && strtolower($onEnterAction) !== 'none') {
-			$label .= sprintf("\n\n enter-action: %s", $onEnterAction);
-		}
-
-		if ($onEnterEventsString) {
-			$label .= sprintf("\n\n enter-events: [%s]", $onEnterEventsString);
-		}
-
-		if ($onExitAction !== null && strtolower($onExitAction) !== 'none') {
-			$label .= sprintf("\n\n exit-action: %s", $onExitAction);
-		}
-
-		if ($onExitEventsString) {
-			$label .= sprintf("\n\n exit-events: [%s]", $onExitEventsString);
-		}
-
-		// escape double-quotes
-		$label = str_replace("\"", "\\\"", $label);
-		return $label;
-	}
-
 	/**
 	 * @param string[] $eventNames
 	 *
@@ -191,4 +192,5 @@ GRAPHWIZ_PATTERN;
 
 		return join(", ", $events);
 	}
+
 }
