@@ -1,7 +1,7 @@
 {
     "name": "drbonzo/workflow_php",
     "description": "Workflow System for PHP",
-    "version" : "0.5.0",
+    "version" : "0.6.0-dev",
     "authors": [
         {
             "name": "dr_bonzo",

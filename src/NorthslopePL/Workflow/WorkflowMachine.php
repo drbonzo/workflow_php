@@ -8,11 +8,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 class WorkflowMachine
 {
 	/**
-	 * @var EventDispatcher
-	 */
-	private $eventDispatcher;
-
-	/**
 	 * @var LoggerInterface
 	 */
 	private $logger;
@@ -22,9 +17,8 @@ class WorkflowMachine
 	 */
 	private $nestingLevelForLogging = 0;
 
-	public function __construct(EventDispatcher $eventDispatcher)
+	public function __construct()
 	{
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	public function setLogger(LoggerInterface $logger)
@@ -35,9 +29,10 @@ class WorkflowMachine
 	/**
 	 * @param WorkflowCollection $workflowCollection
 	 * @param WorkflowContextCollection $contextCollection
+	 * @param EventDispatcher $eventDispatcher
 	 * @param string|null $eventName
 	 */
-	public function execute(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, $eventName = null)
+	public function execute(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, EventDispatcher $eventDispatcher, $eventName = null)
 	{
 		$this->nestingLevelForLogging++;
 		$this->log(sprintf('---- Execute-Start: %s', $eventName ? $eventName : '(none)'));
@@ -49,12 +44,12 @@ class WorkflowMachine
 
 			$context = $contextCollection->getContext(get_class($workflow));
 
-			$this->eventDispatcher->dispatch(WorkflowEvents::BEGIN_EXECUTION, new WorkflowEvent($context));
+			$eventDispatcher->dispatch(WorkflowEvents::BEGIN_EXECUTION, new WorkflowEvent($context));
 
-			$twp = $this->executeOnWorkflow($workflowCollection, $contextCollection, $workflow, $context, $eventName);
+			$twp = $this->executeOnWorkflow($workflowCollection, $contextCollection, $workflow, $context, $eventDispatcher, $eventName);
 			$transitionWasPerformed = $transitionWasPerformed || $twp;
 
-			$this->eventDispatcher->dispatch(WorkflowEvents::END_EXECUTION, new WorkflowEvent($context));
+			$eventDispatcher->dispatch(WorkflowEvents::END_EXECUTION, new WorkflowEvent($context));
 
 		}
 
@@ -66,7 +61,7 @@ class WorkflowMachine
 		// This allows to trigger other Transitions that waited for their Guard to be true.
 		// As something has changed in the target object - some Guards may be now true.
 		if ($transitionWasPerformed) {
-			$this->execute($workflowCollection, $contextCollection, null);
+			$this->execute($workflowCollection, $contextCollection, $eventDispatcher, null);
 		}
 
 		$this->nestingLevelForLogging--;
@@ -77,11 +72,12 @@ class WorkflowMachine
 	 * @param WorkflowContextCollection $contextCollection
 	 * @param Workflow $workflow
 	 * @param WorkflowContext $context
+	 * @param EventDispatcher $eventDispatcher
 	 * @param string|null $eventName
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	private function executeOnWorkflow(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, $eventName)
+	private function executeOnWorkflow(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, EventDispatcher $eventDispatcher, $eventName)
 	{
 		$this->log(sprintf('Workflow-Start: %s, Event: %s', $workflow->getName(), $eventName));
 
@@ -106,7 +102,7 @@ class WorkflowMachine
 
 			//
 			//
-			$this->performTransition($workflowCollection, $contextCollection, $workflow, $context, $transitionToRun, $currentState);
+			$this->performTransition($workflowCollection, $contextCollection, $workflow, $context, $transitionToRun, $currentState, $eventDispatcher);
 
 			// SAVE ALL CHANGES
 			$context->commit();
@@ -198,14 +194,14 @@ class WorkflowMachine
 		}
 	}
 
-	private function performTransition(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, WorkflowTransition $transition, WorkflowState $currentState)
+	private function performTransition(WorkflowCollection $workflowCollection, WorkflowContextCollection $contextCollection, Workflow $workflow, WorkflowContext $context, WorkflowTransition $transition, WorkflowState $currentState, EventDispatcher $eventDispatcher)
 	{
 		$sourceState = $this->getSourceState($workflow, $transition, $currentState);
 
 		$destinationState = $workflow->getStateForStateId($transition->getDestinationStateId());
 
 		$this->log(sprintf('        Transition-Start: %s => %s', $sourceState->getStateId(), $destinationState->getStateId()));
-		$this->eventDispatcher->dispatch(WorkflowEvents::BEFORE_TRANSITION, new WorkflowEvent($context));
+		$eventDispatcher->dispatch(WorkflowEvents::BEFORE_TRANSITION, new WorkflowEvent($context));
 		{
 			// EXIT ACTION
 			$this->log(sprintf('        Source:onExitAction()'));
@@ -213,7 +209,7 @@ class WorkflowMachine
 
 			// EXIT EVENTS
 			foreach ($sourceState->getOnExitEvents() as $eventName) {
-				$this->execute($workflowCollection, $contextCollection, $eventName);
+				$this->execute($workflowCollection, $contextCollection, $eventDispatcher, $eventName);
 			}
 
 			// TRANSITON:RUN
@@ -221,7 +217,7 @@ class WorkflowMachine
 
 			// CHANGE STATE
 			$context->setCurrentStateId($destinationState->getStateId());
-			$this->eventDispatcher->dispatch(WorkflowEvents::STATE_CHANGED, new WorkflowEvent($context));
+			$eventDispatcher->dispatch(WorkflowEvents::STATE_CHANGED, new WorkflowEvent($context));
 
 			$this->log(
 				sprintf(
@@ -241,10 +237,10 @@ class WorkflowMachine
 
 			// ENTER EVENTS
 			foreach ($destinationState->getOnEnterEvents() as $eventName) {
-				$this->execute($workflowCollection, $contextCollection, $eventName);
+				$this->execute($workflowCollection, $contextCollection, $eventDispatcher, $eventName);
 			}
 		}
-		$this->eventDispatcher->dispatch(WorkflowEvents::AFTER_TRANSITION, new WorkflowEvent($context));
+		$eventDispatcher->dispatch(WorkflowEvents::AFTER_TRANSITION, new WorkflowEvent($context));
 	}
 
 	/**

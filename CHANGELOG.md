@@ -1,11 +1,21 @@
 # Changelog
 
+## 0.6.0
+
+_2016-06-13_
+
+* `WorkflowMachine` + `EventDispatcher`
+  * Removed `EventDispatcher $eventDispatcher` from `WorkflowMachine::__construct()`
+  * Added `EventDispatcher $eventDispatcher` to `WorkflowMachine::execute(...)`
+  * this allows to call `execute()` with different `$eventDispatcher`
+  * and you don't need to setup `$eventDispatcher` just to retrieve events from Workflows
+
 ## 0.5.0
 
 _2016-06-10_
 
 * WorkflowMachine calls WorkflowContext::commit() after performing single Transition to save changes in object being processed by the Workflow
-	- Added WorkflowContext::commit()
+  - Added WorkflowContext::commit()
 
 
 ## 0.4.0
@@ -14,9 +24,9 @@ _2016-06-09_
 
 * Removed `AbstractWorkflowTransition`
 * Removed methods from WorkflowContext
-	- getValue()
-	- setValue(...)
-	- unsetValue(...)
+  - getValue()
+  - setValue(...)
+  - unsetValue(...)
 
 ## 0.3.0
 
