@@ -83,7 +83,10 @@ class WorkflowBuilderManagerTest extends PHPUnit_Framework_TestCase
 
 		//
 
-		$this->workflowBuilderDelegate = $this->getMock(WorkflowBuilderDelegate::class, ['getWorkflowBuilders', 'getAllWorkflowBuilders', 'getWorkflowContextCollection']);
+		$this->workflowBuilderDelegate = $this->getMockBuilder(WorkflowBuilderDelegate::class)
+			->enableOriginalConstructor()
+			->setMethods(['getWorkflowBuilders', 'getAllWorkflowBuilders', 'getWorkflowContextCollection'])
+			->getMock();
 
 		//
 
