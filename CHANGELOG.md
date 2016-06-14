@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1
+
+_2016-06-14_
+
+* Updated tests to phpunit 5.4
+
 ## 0.6.0
 
 _2016-06-13_
