@@ -130,7 +130,8 @@ GRAPHWIZ_PATTERN;
 		$eventsString = $this->buildEventsString($transition->getEventNames());
 		$guardString = $this->buildGuardString($transition);
 		$actionString = $this->buildActionString($transition);
-		$label = sprintf('%s%s%s', $this->wordWrap($eventsString), $this->wordWrap($guardString), $this->wordWrap($actionString));
+		$transitionName = "\n<" . basename(str_replace('\\', '//', get_class($transition))) . ">"; // 'Foo\Bar\Workflow\Transitions\FooTransition' => 'FooTransition'
+		$label = sprintf('%s%s%s%s', $this->wordWrap($eventsString), $this->wordWrap($guardString), $this->wordWrap($actionString), $this->wordWrap($transitionName, 20, true));
 
 		return sprintf("\t" . '"%s" -> "%s" [label="%s"];', $sourceStateId, $destinationStateId, $label);
 	}
@@ -195,14 +196,17 @@ GRAPHWIZ_PATTERN;
 
 	/**
 	 * @param string $text
+	 * @param int $length
+	 * @param bool $cutWords
+	 *
 	 * @return string
 	 */
-	private function wordWrap($text)
+	private function wordWrap($text, $length = 20, $cutWords = false)
 	{
 		if (empty($text)) {
 			return $text;
 		} else {
-			return wordwrap($text, 20, "\n", false);
+			return wordwrap($text, $length, "\n", $cutWords);
 		}
 	}
 }

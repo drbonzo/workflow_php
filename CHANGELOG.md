@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.2
+
+_2016-06-27_
+
+* DOT Diagram - shows transition classname (without namespace)
+
 ## 0.6.1
 
 _2016-06-14_
