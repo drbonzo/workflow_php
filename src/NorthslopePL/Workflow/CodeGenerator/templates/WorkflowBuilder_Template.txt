@@ -4,7 +4,7 @@ namespace {{Workflow_Namespace}};
 {{Workflow_Use_StatesAndTransitions}}
 use NorthslopePL\Workflow\WorkflowBuilder;
 
-class {{WorkflowBuilder_Classname}} implements WorkflowBuilder
+class {{WorkflowBuilder_Classname}} implements WorkflowBuilder // FIXME implement me
 {
 	public function buildWorkflow()
 	{

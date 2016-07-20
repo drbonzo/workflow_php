@@ -3,6 +3,8 @@
 # CURRENT
 
 * Fixed WorkflowContext_Template.txt to contain new methods: commit(), getCurrentStateId(), getLastStateChangedAt(). Removed AbstractWorkflowContext from template.
+* Added FIXMEs to WorkflowBuilder_Template.txt and WorkflowContext_Template.txt
+
 ## 0.6.1
 
 _2016-06-14_

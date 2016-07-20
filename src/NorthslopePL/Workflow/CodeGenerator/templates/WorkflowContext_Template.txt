@@ -3,7 +3,7 @@ namespace {{Workflow_Namespace}};
 
 use NorthslopePL\Workflow\WorkflowContext;
 
-class {{Workflow_ContextClassname}} implements WorkflowContext
+class {{Workflow_ContextClassname}} implements WorkflowContext // FIXME implement me
 {
 	public function __construct()
 	{
