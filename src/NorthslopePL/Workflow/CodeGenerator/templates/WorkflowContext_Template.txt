@@ -1,13 +1,10 @@
 <?php
 namespace {{Workflow_Namespace}};
 
-use NorthslopePL\Workflow\AbstractWorkflowContext;
 use NorthslopePL\Workflow\WorkflowContext;
 
 class {{Workflow_ContextClassname}} implements WorkflowContext
 {
-	use AbstractWorkflowContext;
-
 	public function __construct()
 	{
 		$this->currentStateId = null; // FIXME implement me
@@ -18,4 +15,20 @@ class {{Workflow_ContextClassname}} implements WorkflowContext
 		$this->currentStateId = $currentStateId;
 		// FIXME implement me
 	}
+
+	public function commit()
+	{
+		// FIXME implement me
+	}
+
+	public function getCurrentStateId()
+	{
+		// FIXME implement me
+	}
+
+	public function getLastStateChangedAt()
+	{
+		// FIXME implement me
+	}
+
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+# CURRENT
+
+* Fixed WorkflowContext_Template.txt to contain new methods: commit(), getCurrentStateId(), getLastStateChangedAt(). Removed AbstractWorkflowContext from template.
 ## 0.6.1
 
 _2016-06-14_
