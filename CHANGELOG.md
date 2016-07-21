@@ -1,9 +1,13 @@
 # Changelog
 
-# CURRENT
+## 0.6.3
 
 * Fixed WorkflowContext_Template.txt to contain new methods: commit(), getCurrentStateId(), getLastStateChangedAt(). Removed AbstractWorkflowContext from template.
 * Added FIXMEs to WorkflowBuilder_Template.txt and WorkflowContext_Template.txt
+
+## 0.6.2
+
+* Added .travis.yml and updated requirements in require-dev: php >= 5.6, phpunit ^5.4
 
 ## 0.6.1
 
